@@ -1702,6 +1702,11 @@ def parse_model(d, ch, verbose=True):
             args = [*args[1:]]
         else:
             c2 = ch[f]
+        
+        from .modules import custom
+        custom_args = custom.parse_args(f, n, m, ch)
+        if custom_args:
+            args = custom_args
 
         m_ = torch.nn.Sequential(*(m(*args) for _ in range(n))) if n > 1 else m(*args)  # module
         t = str(m)[8:-2].replace("__main__.", "")  # module type
