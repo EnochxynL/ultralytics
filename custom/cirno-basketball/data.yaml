@@ -1,0 +1,13 @@
+train: ../train1/images
+val: ../valid1/images
+test: ../test1/images
+
+nc: 3
+names: ['basketball', 'people', 'rim']
+
+roboflow:
+  workspace: uc-berkely-w210-tracer
+  project: tracer-basketball
+  version: 3
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/uc-berkely-w210-tracer/tracer-basketball/dataset/3
