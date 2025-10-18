@@ -6,7 +6,8 @@ import datetime
 
 if __name__ == '__main__':
     # Load a model
-    model = YOLO("custom/cirno-basketball/model1.yaml")
+    # model = YOLO("custom/cirno-basketball/model1.yaml")
+    model = YOLO("yolo11.yaml")
 
     # Train the model
     train_results = model.train(
