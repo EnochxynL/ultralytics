@@ -92,6 +92,13 @@ from ultralytics.utils.torch_utils import (
     smart_inference_mode,
     time_sync,
 )
+from .modules.custom import (
+    ECA,
+    MSCA,
+    SPPF_LSKA,
+    LSKA,
+    CoordAtt
+)
 
 
 class BaseModel(torch.nn.Module):
@@ -1700,13 +1707,21 @@ def parse_model(d, ch, verbose=True):
             c2 = args[0]
             c1 = ch[f]
             args = [*args[1:]]
+        # TODO: 糟糕的组织形式！本来应该和每个module放在一起的！所以，是否存在简捷的语法描述、解析、断点框架？
+        elif m in {CoordAtt}:
+            c2 = args[0]
+            c1 = ch[f]
+            args = [c1, c2, *args[1:]]
+        elif m in {SPPF_LSKA}: # 可惜！明明算是SPPF的继承，却要重新定义参数的解析方式。重构起来太麻烦。
+            c1, c2 = ch[f], args[0]
+            if c2 != nc:  # if c2 not equal to number of classes (i.e. for Classify() output)
+                c2 = make_divisible(min(c2, max_channels) * width, 8)
+            args = [c1, c2, *args[1:]]
+        elif m in {MSCA, LSKA}:
+            c1 = ch[f]
+            args = [c1, *args]
         else:
             c2 = ch[f]
-        
-        from .modules import custom
-        custom_args = custom.parse_args(f, n, m, ch)
-        if custom_args:
-            args = custom_args
 
         m_ = torch.nn.Sequential(*(m(*args) for _ in range(n))) if n > 1 else m(*args)  # module
         t = str(m)[8:-2].replace("__main__.", "")  # module type

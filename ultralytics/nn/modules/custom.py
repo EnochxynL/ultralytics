@@ -114,6 +114,14 @@ class SPPF_LSKA(nn.Module):
     """Spatial Pyramid Pooling - Fast (SPPF) layer for YOLOv5 by Glenn Jocher."""
  
     def __init__(self, c1, c2, k=5):  # equivalent to SPP(k=(5, 9, 13))
+        """
+        Initialize the SPPF layer with given input/output channels and kernel size.
+
+        Args:
+            c1 (int): Input channels.
+            c2 (int): Output channels.
+            k (int): Kernel size.
+        """
         super().__init__()
         c_ = c1 // 2  # hidden channels
         self.cv1 = Conv(c1, c_, 1, 1)
@@ -184,7 +192,7 @@ class CoordAtt(nn.Module):
         return out
     
 class ECA(nn.Module):
-    def __init__(self, c1, c2, k_size=3):
+    def __init__(self, k_size=3):
         super(ECA, self).__init__()
         self.avg_pool = nn.AdaptiveAvgPool2d(1)
         self.conv = nn.Conv1d(
@@ -198,10 +206,19 @@ class ECA(nn.Module):
         y = self.sigmoid(y)
         return x * y.expand_as(x)
 
-def parse_args(f_rom, n_umber, m_odule, ch_annel):
-    if m_odule in {ECA, MSCA, CoordAtt, LSKA, SPPF_LSKA}:
-        c1 = ch_annel[f_rom], ch_annel[f_rom]
-        args = [c1, *args]
-        return args
-    else:
-        return None
+def parse_args(_c2, _channel, _from, _repeats, _module, _args):
+    '''
+    Convert custom module arguments in YAML file to proper format in classes defined.
+
+    Args:
+        _channel: list, a list of channel sizes for each layer
+        _from: int, the index of the layer from which the current layer takes input
+        _repeats: int, the number of times the module is repeated
+        _module: nn.Module, the module class of the current layer
+        _args: list, additional arguments for the module
+
+    Note:
+        An YAML example is as below:
+        - [_from, _repeats, _module, _args]
+    '''
+    
