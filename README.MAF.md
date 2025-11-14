@@ -1,5 +1,7 @@
 # YOLO11-MAF Detection Model Codebase
 
+A custom training codebase forked form [ultralytics](https://github.com/ultralytics/ultralytics).
+
 ## Quick Start
 
 Train script for YOLO11-Nano: `my_train.py`
