@@ -1709,8 +1709,11 @@ def parse_model(d, ch, verbose=True):
             args = [*args[1:]]
         # TODO: 糟糕的组织形式！本来应该和每个module放在一起的！所以，是否存在简捷的语法描述、解析、断点框架？
         elif m in {CoordAtt}:
-            c2 = args[0]
             c1 = ch[f]
+            c2 = c1
+            # 若存在参数，则覆盖默认值
+            if len(args) >= 1:
+                c2 = args[0]
             args = [c1, c2, *args[1:]]
         elif m in {SPPF_LSKA}: # 可惜！明明算是SPPF的继承，却要重新定义参数的解析方式。重构起来太麻烦。
             c1, c2 = ch[f], args[0]

@@ -862,7 +862,7 @@ def plot_images(
 def plot_results(file: str = "path/to/results.csv", dir: str = "", on_plot: Callable | None = None):
     """
     Plot training results from a results CSV file. The function supports various types of data including segmentation,
-    pose estimation, and classification. Plots are saved as 'results.png' in the directory where the CSV is located.
+    pose estimation, and classification. Plots are saved as 'results.png' and 'results.svg' in the directory where the CSV is located.
 
     Args:
         file (str, optional): Path to the CSV file containing the training results.
@@ -906,6 +906,8 @@ def plot_results(file: str = "path/to/results.csv", dir: str = "", on_plot: Call
         except Exception as e:
             LOGGER.error(f"Plotting error for {f}: {e}")
     ax[1].legend()
+    fname = save_dir / "results.svg"
+    fig.savefig(fname, dpi=200)
     fname = save_dir / "results.png"
     fig.savefig(fname, dpi=200)
     plt.close()
