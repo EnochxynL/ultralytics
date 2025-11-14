@@ -1,0 +1,8 @@
+train: ../Basketball_Detection/Basketball/train/images
+val: ../Basketball_Detection/Basketball/valid/images
+test: ../Basketball_Detection/Basketball/test/images
+
+nc: 5
+names: ['basketball', 'made', 'person', 'rim', 'shoot']
+
+# https://github.com/tranvietcuong03/Basketball_Detection
