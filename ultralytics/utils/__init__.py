@@ -358,7 +358,7 @@ def plt_settings(rcparams=None, backend="Agg"):
         ...     plt.show()
     """
     if rcparams is None:
-        rcparams = {"font.size": 11}
+        rcparams = {"font.size": 16}
 
     def decorator(func):
         """Decorator to apply temporary rc parameters and backend to a function."""
