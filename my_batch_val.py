@@ -21,7 +21,7 @@ if __name__ == '__main__':
         print(f"Validating {model_path}...")
         model = YOLO(model_path)
         metrics = model.val(
-            data="custom/Basketball/data2.yaml",
+            data="my_dataset/Basketball_Detection.yaml",
             imgsz=640,
             device=0
         )
